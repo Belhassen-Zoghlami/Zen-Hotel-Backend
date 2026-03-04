@@ -7,34 +7,46 @@ exports.homepage = (req,res) =>
 
         if (!req.user)
         {
-            return res.json({
+            return res.status(200).json
+            ({
+                authenticated: false,
                 role: 'guest',
                 home: 'client',
-                message: 'welcome to the guest home page'
+                permissions: [],
+                message: 'Client home'
             });
         }
-        const role = req.user.role;
-        if( role == 'OWNER')
+        const { role } = req.user.role;
+        if( role === 'client')
         {
-            return res.json({
+            return res.status(200).json
+            ({
+                authenticated: true,
                 role: "owner",
-                home: '/owner',
-                message: `welcome ${req.user.name}`
+                home: 'owner',
+                permissions:['manage_own_hotels','view_bookings'],
+                message: `welcome owner ${req.user.name}`
             });
         }
-        if (  role  ==  'CLIENT')
+        if (  role  ===  'client')
         {
-            return  res.json({
+            return  res.status(200).json
+            ({
+                authenticated: true,
                 role: 'client',
-                home: '/client',
+                home: 'client',
+                permissions:['book_hotel','view_reservations'],
                 message:  `welcome  client ${req.user.name}`
             });
         }
-        if (role == 'ADMIN')
+        if (role === 'admin')
         {
-            return res.json({
+            return res.status(200).json({
+
+                authenticated:true,
                 role: 'admin',
-                home :  '/admin',
+                home :  'admin',
+                permissions: ['manage_users','manage_hotels','view_reports'],
                 message: `welcome  admin  ${req.user.role}`
             });
         }
