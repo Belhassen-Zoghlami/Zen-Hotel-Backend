@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const mailing = require('../services/email.service');
 
 
 exports.getAllUsers = async (req,res) =>
@@ -25,8 +26,9 @@ exports.validateOwner = async (req,res)=>
 
     user.isValidated = true;
     await user.save();
+    await mailing.sendOwnerValidationEmail(user);
     res.json({
-        message: 'owner validated successfully'
+        message: 'owner validated successfully! Email sent successfully.'
     });
 };
 
