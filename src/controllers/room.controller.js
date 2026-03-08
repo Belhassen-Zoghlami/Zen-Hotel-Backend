@@ -11,7 +11,7 @@ exports.CreateRoom = async(req,res) =>
 
             if (!hotel)
                 return res.status(404).json({message: 'cant create room, hotel not found'});
-            if (hotel.owner.toString !== req.user.id && req.user.role !== 'admin')
+            if (hotel.owner.toString() !== req.user.id && req.user.role !== 'admin')
                 return res.status(403).json({message: 'Access Unauthorized'});
             
             
@@ -31,12 +31,12 @@ exports.CreateRoom = async(req,res) =>
                 }
             );
 
-            await hotel.save();
+            // await room.save();
             res.json('Room created successfully');
         }
         catch(err)
         {
-            res.status(500).json({message: 'Server error'});
+            res.status(500).json({message: 'Server error',error:err.message});
         }
     }
 
@@ -62,23 +62,23 @@ exports.UpdateRoom = async (req,res)=>
     try 
     {
 
-        const room = await Room.findById(req.params.roomId);
+        const room = await Room.find({hotel:req.params.hotelId}).findById(req.params.roomId);
         if (!room)
             return res.status(404).json({ message: 'cant update, Room not found'});
-        room.roomNumber= req.body.roomNumber || room.roomNumber,
-        room.type= req.body.type || room.type,
-        room.capacity= req.body.capacity || room.capacity,
-        room.pricePerNight= req.body.pricePerNight || room.pricePerNight,
-        room.amenities= req.body.amenities || room.amenities,
-        room.description= req.body.description || room.description,
-        room.isAvailable= req.body.isAvailable || room.isAvailable,
+        room.roomNumber= req.body.roomNumber || room.roomNumber;
+        room.type= req.body.type || room.type;
+        room.capacity= req.body.capacity || room.capacity;
+        room.pricePerNight= req.body.pricePerNight || room.pricePerNight;
+        room.amenities= req.body.amenities || room.amenities;
+        room.desciption= req.body.desciption || room.desciption;
+        if (req.body.isAvailable !== undefined) room.isAvailable=req.body.isAvailable;
         //images
         await room.save()
         res.json({message: 'room updated successfully'});
     }
     catch(err)
     {
-        res.status(500).json({message: 'Server error'});
+        res.status(500).json({message: 'Server error', error:err.message});
     }
 }
 
@@ -88,9 +88,12 @@ exports.GetRoom = async (req,res) =>
 {
     try
     {
-        const room = await Room.findById(req.params.roomId);
+        const room = await Room.find({hotel:req.params.hotelId}).findById(req.params.roomId);
         if(!room)
+        {
+
             return res.status(404).json({message: 'Room not found'})
+        }
         res.json(room)
 
     }
@@ -106,12 +109,13 @@ exports.DeleteRoom = async (req,res) =>
 {
     try
     {
-        const room = await Room.findById(req.params.roomId);
+        const room = await Room.find({hotel:req.params.hotelId}).findById(req.params.roomId);
         if (!room)
         {
             return res.status(404).json({message: 'cant delete, Room not found'});
         }
         await room.deleteOne();
+        res.json({message: 'room deleted successfully'})
     }
     catch(err)
     {

@@ -87,7 +87,18 @@ exports.login = async (req, res) => {
       }
     );
 
-    res.json({ token });
+    res.cookie
+    (
+      'token',token,
+      {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Strict',
+        maxAge:3600000
+      }
+    );
+
+    res.json({message: `user ${user.name} logged in successfully`});
 
   }
   catch (err)
@@ -102,3 +113,10 @@ exports.login = async (req, res) => {
     );
   }
 };
+
+
+exports.Logout = (req,res) =>
+  {
+    res.clearCookie('token');
+    res.json({ message: 'User Logged out successfully'});
+  };

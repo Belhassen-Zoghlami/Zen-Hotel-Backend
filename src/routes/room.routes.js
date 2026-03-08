@@ -9,10 +9,10 @@ router.get('/:hotelId',auth,reqRoles('owner','admin'),roomController.GetHotelRoo
 //create room route
 router.post('/:hotelId',auth,reqRoles('owner','admin'),roomController.CreateRoom);
 //get room by id route
-router.get('/:roomId',auth,reqRoles('owner','admin'),roomController.GetRoom);
+router.get('/:hotelId/:roomId',auth,reqRoles('owner','admin'),roomController.GetRoom);
 //update room route
-router.patch('/:roomId',auth,reqRoles('owner','admin'),roomController.UpdateRoom);
+router.patch('/:hotelId/:roomId',auth,reqRoles('owner','admin'),roomController.UpdateRoom);
 //delete room route
-router.delete('/:roomId',auth, reqRoles('owner','admin'), roomController.DeleteRoom);
+router.delete('/:hotelId/:roomId',auth, reqRoles('owner','admin'), roomController.DeleteRoom);
 
 module.exports = router;

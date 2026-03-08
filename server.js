@@ -3,8 +3,9 @@ const app = require('./src/app');
 const connectDB = require('./src/config/db');
 const admincreation = require('./src/config/createAdmin');
 connectDB();
-
 admincreation();
+
+
 // app.get('/', (req,res)=>
 // {
 //   res.send("welcome");

@@ -1,7 +1,7 @@
 
 const Hotel = require('../models/hotel.model');
 
-//hotel creation
+//                                                                  hotel creation
 exports.CreateHoltel = async (req,res)=>
 {
     try
@@ -27,7 +27,7 @@ exports.CreateHoltel = async (req,res)=>
 
 }
 
-//find all per owner
+//                                                                  find all per owner
 exports.GetAllHotels = async (req,res)=>
 {
     try
@@ -46,18 +46,19 @@ exports.GetAllHotels = async (req,res)=>
     }
 };
 
-// find by id
+//                                                                  find by id
 exports.GetHotel = async (req,res) =>
 {
     try
     {
 
-        const hotel = Hotel.findById(req.params.id);
+        const hotel = await Hotel.findById(req.params.id);
         
         if(!hotel)
             {
                 return res.status(404).json({ message: 'hotel not found'});
             }
+            res.json(hotel)
     }
     catch(err)
     {
@@ -65,18 +66,18 @@ exports.GetHotel = async (req,res) =>
     }
 }
 
-//update hotel
+//                                                                  update hotel
 
 exports.UpdateHotel= async (req,res) =>
 {
     try
     {
-        const hotel = Hotel.findById(req.params.id);
+        const hotel = await Hotel.findById(req.params.id);
         if (!hotel)
         {
             return res.status(404).json({message: 'Cant update, hotel not found'});
         }
-        if(hotel.owner.toString !== req.user.id && req.user.role !== 'admin')
+        if(hotel.owner.toString() !== req.user.id && req.user.role !== 'admin')
         {
             return res.status(403).json({message: 'Access unauthorized'});
         }
@@ -98,7 +99,7 @@ exports.UpdateHotel= async (req,res) =>
 }
 
 
-//delete hotel
+//                                                                  delete hotel
 
 
 exports.DeleteHotel = async(req,res) =>
@@ -107,12 +108,12 @@ exports.DeleteHotel = async(req,res) =>
         try
 
     {
-        const hotel = Hotel.findById(req.params.id);
+        const hotel = await Hotel.findById(req.params.id);
         if (!hotel)
         {
             return res.status(404).json({message: 'cant delete, hotel not found'});
         }
-        if(hotel.owner.toString !== req.user.id && req.user.role !== 'admin')
+        if(hotel.owner.toString() !== req.user.id && req.user.role !== 'admin')
         {
 
             return res.status(403).json({message: 'Access unauthorized'});
