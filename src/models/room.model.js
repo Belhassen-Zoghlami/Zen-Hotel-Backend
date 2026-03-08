@@ -40,7 +40,7 @@ const roomSchema = new mongoose.Schema
             required: true,
 
         }
-        ,amenities:
+        ,amenities:[
         {
             type: String,
             enum:
@@ -55,7 +55,7 @@ const roomSchema = new mongoose.Schema
                  'Balcony',
             ]
 
-        }
+        }]
         ,
         desciption:
         {
