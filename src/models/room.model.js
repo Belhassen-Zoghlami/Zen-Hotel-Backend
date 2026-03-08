@@ -73,4 +73,4 @@ const roomSchema = new mongoose.Schema
     },{timestamps:true}
 );
 
-module.exports = mongoose.Schema('Room',roomSchema);
+module.exports = mongoose.model('Room',roomSchema);

@@ -8,8 +8,7 @@ const crAdmin = async () =>
         const existAd = await User.findOne( { role: 'admin'});
         if (existAd)
         {
-            console.log('admin exists already');
-            return
+            return console.log('admin exists already');
         }
 
 
