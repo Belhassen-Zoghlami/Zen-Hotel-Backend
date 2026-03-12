@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 
 exports.homepage = (req,res) =>
     {
+        try{
+
+        
 
         if (!req.user)
         {
@@ -16,8 +19,8 @@ exports.homepage = (req,res) =>
                 message: 'Client home'
             });
         }
-        const { role } = req.user.role;
-        if( role === 'client')
+        const { role } = req.user;
+        if( role === 'owner')
         {
             return res.status(200).json
             ({
@@ -49,6 +52,13 @@ exports.homepage = (req,res) =>
                 permissions: ['manage_users','manage_hotels','view_reports'],
                 message: `welcome  admin  ${req.user.role}`
             });
+        }
+        }
+        catch(err)
+        {
+            res.status(500).json({
+                message: 'Server error'
+            })
         }
 
     }
