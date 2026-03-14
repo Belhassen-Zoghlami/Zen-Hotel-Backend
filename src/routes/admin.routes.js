@@ -22,7 +22,7 @@ router.get(
 
 router.delete(
     'users/:userId',
-    auth,reqroles('admin'),
+    auth,reqRole('admin'),
     adminController.deleteUser
 );
 
